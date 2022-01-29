@@ -27,6 +27,12 @@ function App() {
   const [sessionKeyCountriesTable, setSessionKeyCountriesTable] = useState('sessionKeyCountriesTable');
   const [sessionKeyUniversitiesTable, setSessionKeyUniversitiesTable] = useState('sessionKeyUniversitiesTable');
 
+  const [txtcountryName, setTxtCountryName] = useState("");
+
+  const handleTxtChange = (e: { target: { value: any; }; }) => {
+    setTxtCountryName(e.target.value);
+  }
+
   const columns = [
     {
       headerName: 'ID',
@@ -49,18 +55,16 @@ function App() {
       width: 400,
       editable: false,
       sortable: false,
-      renderCell: (params: any) => <img src={params.value} />, // renderCell will render the component
+      renderCell: (params: any) => <img src={params.value} />
     }
   ];
 
   useEffect(() => {
     defineBaseData();
-      //getData();
     }, []);
 
   const defineBaseData = async () => {
       let countriesTable = JSON.parse(localStorage.getItem(sessionKeyCountriesTable) || "[]");
-      let universitiesTable = localStorage.getItem(sessionKeyUniversitiesTable);
       localStorage.setItem(sessionKeyCountriesTable, JSON.stringify([]));
       getCountries();
       setCountries(countriesTable);
@@ -71,8 +75,16 @@ function App() {
     localStorage.setItem(sessionKeyCountriesTable, JSON.stringify(table));
   }
 
-  const getData = async () => {
-    setUniversities(await _universitiesService.getData());
+  async function searchCountry(){
+    let countriesTable = JSON.parse(localStorage.getItem(sessionKeyCountriesTable) || "[]");
+    const countriesFiltered: Country[] = [];
+    await countriesTable.forEach((country: Country) => {
+      if(country.name.toLowerCase().includes(txtcountryName.toLowerCase())){
+        countriesFiltered.push(country);
+      }
+    });
+    console.log(countriesFiltered);
+    setCountries(countriesFiltered);
   }
 
   const getCountries = async () => {
@@ -86,19 +98,20 @@ function App() {
       <Container style={{ height: 750, width: "100%"}}>
 
         <div style={{justifyContent: 'center', alignContent: 'center', margin:10}}>
-          <TextField id="outlined-basic" label="Outlined" variant="outlined"
-            style={{margin: 10, width: '40%'}} />
+          <TextField id="countryName" label="Country Name" variant="outlined"
+            style={{margin: 10, width: '40%'}} 
+            value={txtcountryName}
+            onChange={handleTxtChange}/>
 
-          <Button variant="outlined">Search</Button>
+          <Button style={{margin: 13, width: '20%', height: 50}} variant="outlined" onClick={() => { searchCountry(); }}>Search</Button>
 
 
         </div>
 
-        <DataGrid style={{textAlign: 'center'}}
+        <DataGrid
           columns={columns} 
           rows={countries}
-          rowsPerPageOptions={[10, 25, 50, 100, 200]}
-          disableSelectionOnClick
+          rowsPerPageOptions={[10, 25, 50, 100]}
         />
       </Container>
     </div>

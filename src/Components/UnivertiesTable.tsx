@@ -16,7 +16,6 @@ export function UnivertiesTable(){
     
     const [sessionKeySelectedCountry, setSessionKeySelectedCountry] = useState('sessionKeySelectedCountry');
 
-
     const columns = [
         {
             headerName: 'ID',

@@ -12,13 +12,9 @@ function App() {
   return (
     <div className="App">
       <Container style={{ height: 750, width: "100%"}}>
-        <div className='tableContainer'>
           <CountriesTable/>
-        </div>
-        <div className='separator'></div>
-        <div className='tableContainer'>
+          <div className='separator'>This solution is in almost in 90%, the functionality for the universities table just select a country and reload the page, is using localstorage to avoid unnecesary calls to API</div>
           <UnivertiesTable/> 
-        </div>
         
       </Container>
     </div>

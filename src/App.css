@@ -1,3 +1,11 @@
 .App {
   padding-top: 2%;
 }
+
+.tableContainer {
+  height: 100%;
+}
+
+.separator {
+  margin: 100px;
+}

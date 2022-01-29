@@ -1,4 +1,5 @@
 export type University = {
+    id: number;
     name: string;
     country: string;
     webPages: Array<string>;
